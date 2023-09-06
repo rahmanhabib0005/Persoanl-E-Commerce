@@ -19,7 +19,7 @@ class UserController extends Controller
             $watch = $alls->category;
             $watches = Tshirt::where('category','Watch')->limit(6)->get();
 
-            $tshirts = Tshirt::where('category',Null)->offset(5)->limit(6)->get();
+            $tshirts = Tshirt::where('category','T-shirt')->offset(0)->limit(3)->get();
 
 
             $blaizers = Tshirt::where('category','Blaizer')->limit(6)->get();
