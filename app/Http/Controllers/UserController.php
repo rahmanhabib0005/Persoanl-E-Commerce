@@ -5,30 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Tshirt;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function default(Request $request)
     {
-        $is_available = $request->session()->has('loginId');
+        $is_available = Auth::user();
         if($is_available)
         {
 
             $alls = Tshirt::where('category','Watch')->first();
             $watch = $alls->category;
             $watches = Tshirt::where('category','Watch')->limit(6)->get();
-
             $tshirts = Tshirt::where('category','T-shirt')->offset(0)->limit(3)->get();
-
-
             $blaizers = Tshirt::where('category','Blaizer')->limit(6)->get();
             $all = Tshirt::where('category','Blaizer')->first();
             $name = $all->category;
 
-            $a_id = $request->session()->get('loginId');
+            $a_id = Auth::user()->id;
             $data = User::find('1');
-            $admin = $data->si;
+            $admin = $data->id;
             $offer = Tshirt::find('1');
 
             $user1 = User::find('1');
@@ -36,23 +33,17 @@ class UserController extends Controller
             $trans = compact('admin','a_id','tshirts','offer','blaizers','name','watch','watches','data','user1','user2');
             return view('index')->with($trans);
         }
-        else
-        {
-            return view('login');
-        }
     }
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $is_available = $request->session()->has('loginId');
+        $is_available = Auth::user();
         if($is_available)
         {
             return redirect()->back()->with('fail', 'Already Logged in!');
-        }
-        else
-        {
+        }else{
             return view('login');
         }
     }
@@ -85,14 +76,14 @@ class UserController extends Controller
         $user->password = bcrypt($request['password']);
         $user->save();
 
-        $is_available = $request->session()->has('loginId');
-        if($is_available)
+
+        if(Auth::attempt($request->only('email','password')))
         {
             return redirect('/')->with('success' ,'Signup successfull.');
         }
         else
         {
-            return redirect('/login')->with('success' ,'Signup successfull.Now you can log in');
+            return redirect('login')->with('success' ,'Signup successfull.Now you can log in');
         }
     }
 
@@ -106,12 +97,9 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::where('email',$request->email)->first();
-        if($user)
-        {
-            if(Hash::check($request->password,$user->password))
+            if(Auth::attempt($request->only('email','password')))
             {
-                $request->session()->put('loginId',$user->si);
+                // $request->session()->put('loginId',$user->si);
                 return redirect('/')->with('success','Login Successfully');
             }
             else
@@ -119,11 +107,7 @@ class UserController extends Controller
                 return redirect()->back()->with('fail', "Password Didn't maches");
             }
         }
-        else
-        {
-            return redirect()->back()->with('fail', "Email doesn't exists Please Signup or Put a Registered E-mail");
-        }
-    }
+    
 
     /**
      * Display the specified resource.
@@ -159,10 +143,11 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        $is_available = $request->session()->has('loginId');
+        $is_available = Auth::user();
         if($is_available)
         {
-            $request->session()->flush();
+            // $request->session()->flush();
+            Auth::logout();
             return redirect()->back()->with('success', "Logout Successfully");
         }
         else

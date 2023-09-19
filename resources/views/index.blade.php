@@ -92,7 +92,7 @@
                         <div class="home-banner home-banner2">
                               <div class="home-banner-text">
                                     <h1>E-Shop</h1>
-                                    <h2 class="text-light">With Working Card & Pay Pal</h2>
+                                    <h2 class="text-light">With Working Bkash & Nagad</h2>
                                     <a href="#products2" class="btn btn-danger text-uppercase mt-4">Our Product</a>
                               </div>
                         </div>
@@ -211,7 +211,8 @@
                   </div>
             </div>
             <div class="row">
-                  @foreach ($tshirts as $item)
+                  @forelse ($tshirts as $item)
+                  
                   <div class="col-sm-6 col-lg-4">
                         {{-- <a href="#" class="d-block text-center mb-4"> --}}
                               <div class="product-list my-3">
@@ -226,138 +227,18 @@
                                                 <a class="btn btn-primary text-uppercase px-3 py-1 mx-5 rounded-3" href="{{url("$item->product_id/edit")}}">Edit</a>
                                                 <a class="btn btn-danger text-uppercase px-3 py-1 mx-5 rounded-3" href="">Delete</a>
                                           @else
-                                                <a class="btn btn-danger text-uppercase px-3 py-1 text-center text-light rounded-3" href="{{url('storage/'.$item->product_id)}}">BUY Now</a>
+                                                <a class="btn btn-danger text-uppercase px-3 py-1 text-center text-light rounded-3" href="{{url('storage/'.$item->product_id)}}">Add to Card</a>
                                           @endif
                                     </div>
                               </div>
-                        {{-- </a> --}}
                   </div>
-                  @endforeach
-                  {{-- <div class="col-sm-6 col-lg-4">
-                        <a href="#" class="d-block text-center mb-4">
-                              <div class="product-list">
-                                    <div class="product-img position-relative">
-                                          <img src="assests/images/p2.jpg" class="img-fluid product-image-first" alt="products">
-                                    </div>
-                                    <div class="product-name pt-3">
-                                          <h3 class="text-capitalize">Stylish Boy's T-Shrirt</h3>
-                                          <p class="mb-0 amount">$500.00</p>
-                                          
-                                          <button type="submit" class="btn btn-danger text-uppercase px-3 py-1 rounded-3">BUY</button>
-                                    </div>
-                              </div>
-                        </a>
-                  </div>
+                      
+                  @empty
                   <div class="col-sm-6 col-lg-4">
-                        <a href="#" class="d-block text-center mb-4">
-                              <div class="product-list">
-                                    <div class="product-img position-relative">
-                                          <span class="sale">Sale</span>
-                                          <img src="assests/images/p3.jpg" class="img-fluid product-image-first" alt="products">
-                                    </div>
-                                    <div class="product-name pt-3">
-                                          <h3 class="text-capitalize">White T-Shirt</h3>
-                                          <p class="mb-0 amount">$300.00 <del>$400.00</del></p>
-                                          
-                                          <button type="submit" class="btn btn-danger text-uppercase px-3 py-1 rounded-3">BUY</button>
-                                    </div>
-                              </div>
-                        </a>
+                        <h1 class="text-center">No Data Found</h1>
                   </div>
-                  <div class="col-sm-6 col-lg-4">
-                        <a href="#" class="d-block text-center mb-4">
-                              <div class="product-list">
-                                    <div class="product-img position-relative">
-                                          <img src="assests/images/p4.jpg" class="img-fluid product-image-first" alt="products">
-                                    </div>
-                                    <div class="product-name pt-3">
-                                          <h3 class="text-capitalize">Orange T-Shirt</h3>
-                                          <p class="mb-0 amount">$300.00</p>
-                                          
-                                          <button type="submit" class="btn btn-danger text-uppercase px-3 py-1 rounded-3">BUY</button>
-                                    </div>
-                              </div>
-                        </a>
-                  </div>
-                  <div class="col-sm-6 col-lg-4">
-                        <a href="#" class="d-block text-center mb-4">
-                              <div class="product-list">
-                                    <div class="product-img position-relative">
-                                          <span class="sale">Sale</span>
-                                          <img src="assests/images/p5.jpg" class="img-fluid product-image-first" alt="products">
-                                    </div>
-                                    <div class="product-name pt-3">
-                                          <h3 class="text-capitalize">Dedicated T-Shirt</h3>
-                                          <p class="mb-0 amount">$430.00 <del>$600.00</del></p>
-                                          
-                                          <button type="submit" class="btn btn-danger text-uppercase px-3 py-1 rounded-3">BUY</button>
-                                    </div>
-                              </div>
-                        </a>
-                  </div>
-                  <div class="col-sm-6 col-lg-4">
-                        <a href="#" class="d-block text-center mb-4">
-                              <div class="product-list">
-                                    <div class="product-img position-relative">
-                                          <img src="assests/images/p6.jpg" class="img-fluid product-image-first" alt="products">
-                                    </div>
-                                    <div class="product-name pt-3">
-                                          <h3 class="text-capitalize">Marshmello's Collection</h3>
-                                          <p class="mb-0 amount">$770.00</p>
-                                          
-                                          <button type="submit" class="btn btn-danger text-uppercase px-3 py-1 rounded-3">BUY</button>
-                                    </div>
-                              </div>
-                        </a>
-                  </div>
-                  <div class="col-sm-6 col-lg-4">
-                        <a href="#" class="d-block text-center mb-4">
-                              <div class="product-list">
-                                    <div class="product-img position-relative">
-                                          <img src="assests/images/p7.jpg" class="img-fluid product-image-first" alt="products">
-                                    </div>
-                                    <div class="product-name pt-3">
-                                          <h3 class="text-capitalize">Black T-Shirts</h3>
-                                          <p class="mb-0 amount">$585.00</p>
-                                          
-                                          <button type="submit" class="btn btn-danger text-uppercase px-3 py-1 rounded-3">BUY</button>
-                                    </div>
-                              </div>
-                        </a>
-                  </div>
-                  <div class="col-sm-6 col-lg-4">
-                        <a href="#" class="d-block text-center mb-4">
-                              <div class="product-list">
-                                    <div class="product-img position-relative">
-                                          <img src="assests/images/p8.jpg" class="img-fluid product-image-first" alt="products">
-                                    </div>
-                                    <div class="product-name pt-3">
-                                          <h3 class="text-capitalize">Handsome Boy's T-Shirt</h3>
-                                          <p class="mb-0 amount">$770.00</p>
-                                          
-                                          <button type="submit" class="btn btn-danger text-uppercase px-3 py-1 rounded-3">BUY</button>
-                                    </div>
-                              </div>
-                        </a>
-                  </div>
-                  <div class="col-sm-6 col-lg-4">
-                        <a href="#" class="d-block text-center mb-4">
-                              <div class="product-list">
-                                    <div class="product-img position-relative">
-                                          <img src="assests/images/p9.jpg" class="img-fluid product-image-first" alt="products">
-                                    </div>
-                                    <div class="product-name pt-3">
-                                          <h3 class="text-capitalize">Cute Stylish Boys Black T-Shirt</h3>
-                                          <p class="mb-0 amount">$800.00</p>
-                                          
-                                          <button type="submit" class="btn btn-danger text-uppercase px-3 py-1 rounded-3">BUY</button>
-                                    </div>
-                              </div>
-                        </a>
-                  </div> --}}
+                  @endforelse
             </div>
-
-            <!--Up to 75% Off-->
       </div>
 </section>
 <section id="products2" class="products">
@@ -372,7 +253,6 @@
             <div class="row">
                   @foreach ($blaizers as $item)
                   <div class="col-sm-6 col-lg-4">
-                        {{-- <a href="#" class="d-block text-center mb-4"> --}}
                               <div class="product-list my-3">
                                     <div class="product-img position-relative">
                                           <span class="sale">For Sale</span>
@@ -385,12 +265,11 @@
                                                 <a class="btn btn-primary text-uppercase px-3 py-1 mx-5 rounded-3" href="{{url("$item->product_id/edit")}}">Edit</a>
                                                 <a class="btn btn-danger text-uppercase px-3 py-1 mx-5 rounded-3" href="">Delete</a>
                                           @else
-                                                <a class="btn btn-danger text-uppercase px-3 py-1 text-center text-light rounded-3" href="{{url('storage/'.$item->product_id)}}">BUY Now</a>
+                                                <a class="btn btn-danger text-uppercase px-3 py-1 text-center text-light rounded-3" href="{{url('storage/'.$item->product_id)}}">Add to Card</a>
                                           @endif
                                     </div>
                               </div>
-                        {{-- </a> --}}
-                  </div>
+                        </div>
                   @endforeach
             </div>
       </div>
@@ -407,7 +286,6 @@
             <div class="row">
                   @foreach ($watches as $item)
                   <div class="col-sm-6 col-lg-4">
-                        {{-- <a href="#" class="d-block text-center mb-4"> --}}
                               <div class="product-list my-3">
                                     <div class="product-img position-relative">
                                           <span class="sale">For Sale</span>
@@ -420,11 +298,10 @@
                                                 <a class="btn btn-primary text-uppercase px-3 py-1 mx-5 rounded-3" href="{{url("$item->product_id/edit")}}">Edit</a>
                                                 <a class="btn btn-danger text-uppercase px-3 py-1 mx-5 rounded-3" href="{{url("$item->product_id/delete")}}">Delete</a>
                                           @else
-                                                <a class="btn btn-danger text-uppercase px-3 py-1 text-center text-light rounded-3" href="{{url('storage/'.$item->product_id)}}">BUY Now</a>
+                                                <a class="btn btn-danger text-uppercase px-3 py-1 text-center text-light rounded-3" href="{{url('storage/'.$item->product_id)}}">Add to Card</a>
                                           @endif
                                     </div>
                               </div>
-                        {{-- </a> --}}
                   </div>
                   @endforeach
             </div>
@@ -467,7 +344,7 @@
                                     <a class="btn btn-primary text-uppercase px-3 py-1 mx-5 rounded-3" href="{{url("$offer->product_id/edit")}}">Edit</a>
                                     <a class="btn btn-danger text-uppercase px-3 py-1 mx-5 rounded-3" href="{{url("$offer->product_id/delete")}}">Delete</a>
                               @else
-                                    <a href="{{url('discount/'.$offer->product_id)}}" type="button" class="btn btn-danger">Buy Now</a>
+                                    <a href="{{url('discount/'.$offer->product_id)}}" type="button" class="btn btn-danger">Add to Card</a>
                               @endif
                         </div>
                   </div>

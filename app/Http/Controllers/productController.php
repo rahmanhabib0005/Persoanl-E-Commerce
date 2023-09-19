@@ -2,29 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Card;
 use App\Models\Tshirt;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class productController extends Controller
 {
     public function index(Request $request)
     {
-        $is_available = $request->session()->has('loginId');
-        if($is_available)
-        {
-            return view('product');
+        return view('payment');
+    }
+
+    public function cardView()
+    {
+        $user = User::with('cards')->find(Auth::user()->id);
+        $data = $user->cards;
+
+        return view('card.card')->with(['data' => $data]);
+    }
+
+    public function addCard($id, Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'amount' => 'required',
+            'product_id' => 'required',
+        ]);
+
+        $data = ['user_id' => $id, 'product_id' => $request->product_id, 'cardTitle' => $request->title, 'amount' => $request->amount];
+
+        Card::create($data);
+        if($data){
+            return redirect()->back();
         }
-        else
-        {
-            return redirect()->back()->with('fail','You are not logged in!');
-        }
+
     }
 
     public function edit($id,Request $request)
     {
-        $is_available = $request->session()->has('loginId');
+        $is_available = Auth::user();
         if($is_available)
         {
             $product = Tshirt::find($id);
@@ -42,7 +61,7 @@ class productController extends Controller
         $user = Tshirt::find($id);
         $mainfile = time()."-main.".$request->file('image')->getClientOriginalExtension();
         $main = $request->file('image')->storeAs('uploads',$mainfile,'public');
-        // Storage::disk('public')->put("payment/uploads/",$main);
+        Storage::disk('public')->put("uploads",$main);
         $user->product = $main;
         $user->pname = $request['name'];
         $user->amount = $request['amount'];
@@ -70,18 +89,21 @@ class productController extends Controller
             }
         $a_id = $request->session()->get('loginId');
         $data = User::find('1');
-        $admin = $data->si;
+        $admin = $data->id;
         $trans = compact('blaizers','a_id','admin');
         return view('search')->with($trans);
     }
     
     public function payment($id,Request $request)
     {
-        $is_available = $request->session()->has('loginId');
+        $is_available = Auth::user();
         if($is_available)
-        {
+        {   
+            $user = User::with('cards')->find(Auth::user()->id);
+            $value = count($user->cards);
             $data = Tshirt::find($id);
-            $trans = compact('data');
+            $trans = compact('data','value');
+            
             return view('payment')->with($trans);
         }
         else
@@ -91,7 +113,7 @@ class productController extends Controller
     }
     public function discount($id,Request $request)
     {
-        $is_available = $request->session()->has('loginId');
+        $is_available = Auth::user();
         if($is_available)
         {
             $data = Tshirt::find($id);
@@ -144,30 +166,31 @@ class productController extends Controller
         $user->category = $request['category'];
         $user->description = $request['description'];
 
-        if ($request->has('red')) {
+        if ($request->file('red')) {
             $redfile = time()."-main.".$request->file('red')->getClientOriginalExtension();
             $red = $request->file('red')->storeAs('uploads',$redfile,'public');
             $user->product = $red;
         }
         
 
-        if ($request->has('blue')) {
+        if ($request->file('blue')) {
             $bluefile = time()."-main.".$request->file('blue')->getClientOriginalExtension();
             $blue = $request->file('blue')->storeAs('uploads',$bluefile,'public');
             $user->product = $blue;
         }
 
-        if ($request->has('black')) {
+        if ($request->file('black')) {
             $blackfile = time()."-main.".$request->file('black')->getClientOriginalExtension();
             $black = $request->file('black')->storeAs('uploads',$blackfile,'public');
             $user->product = $black;
         }
 
-        if ($request->has('red')) {
+        if ($request->file('red')) {
             $whitefile = time()."-main.".$request->file('white')->getClientOriginalExtension();
             $white = $request->file('white')->storeAs('uploads',$whitefile,'public');
             $user->product = $white;
         }
+
         $done = $user->save();
 
         if($done)
