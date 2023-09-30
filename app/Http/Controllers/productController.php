@@ -13,14 +13,14 @@ class productController extends Controller
 {
     public function index(Request $request)
     {
-        return view('payment');
+        return view('product');
     }
 
     public function cardView()
     {
         $user = User::with('cards')->find(Auth::user()->id);
         $data = $user->cards;
-
+        
         return view('card.card')->with(['data' => $data]);
     }
 
@@ -39,6 +39,12 @@ class productController extends Controller
             return redirect()->back();
         }
 
+    }
+
+    public function deleteCard($id)
+    {
+        $item = Card::find($id)->delete();
+        return redirect()->back();
     }
 
     public function edit($id,Request $request)
@@ -125,6 +131,7 @@ class productController extends Controller
             return redirect()->back()->with('fail','You are not logged in!');
         }
     }
+
     public function bkash(Request $request)
     {
         return view('bkash');

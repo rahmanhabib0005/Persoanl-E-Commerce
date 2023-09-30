@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\productController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,7 @@ Route::group(['middleware' => 'auth'],function() {
 
      Route::get('storage/{id}/card', [productController::class ,'cardView']);
      Route::post('storage/{id}/card', [productController::class ,'addCard']);
+     Route::get('{id}/deleteCard', [productController::class, 'deleteCard']);
 
      Route::get('/', [UserController::class, 'default']);
      Route::get('/product', [productController::class, 'index']);
@@ -39,5 +41,8 @@ Route::group(['middleware' => 'auth'],function() {
      Route::get('/cash',[productController::class, 'cash']);
      Route::get('/search',[productController::class, 'Search']);
      Route::get('{id}/delete', [productController::class, 'delete']);
+     
 });
+
+Route::get('send-mail',[MailController::class,'index']);
 
